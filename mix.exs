@@ -41,7 +41,8 @@ defmodule BananaBank.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:bandit, "~> 1.2"}
+      {:bandit, "~> 1.2"},
+      {:pbkdf2_elixir, "~> 2.0"}
     ]
   end
 
