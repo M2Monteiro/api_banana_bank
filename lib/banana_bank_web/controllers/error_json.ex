@@ -19,6 +19,10 @@ defmodule BananaBankWeb.ErrorJSON do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 
+  def error(%{status: :not_found}) do
+    %{status: :not_found, message: "User not found"}
+  end
+
   def error(%{changeset: changeset}) do
     %{error: Ecto.Changeset.traverse_errors(changeset, &translate_errors/1)}
   end
