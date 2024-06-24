@@ -14,6 +14,12 @@ defmodule BananaBankWeb.UsersController do
     end
   end
 
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %User{}} <- Users.delete(id) do
+      conn |> send_resp(:no_content, "User deletado com sucesso")
+    end
+  end
+
   def show(conn, %{"id" => id}) do
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
