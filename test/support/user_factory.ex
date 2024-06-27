@@ -9,7 +9,7 @@ defmodule BananaBankWeb.Support.UserFactory do
       email: sequence(:email, &"user#{&1}@example.com"),
       password: "12345678",
       password_hash: Pbkdf2.hash_pwd_salt("12345678"),
-      cep: "12345678"
+      cep: "01001000"
     }
   end
 
@@ -18,7 +18,7 @@ defmodule BananaBankWeb.Support.UserFactory do
       name: "Joe Makarov",
       email: sequence(:email, &"user#{&1}@example.com"),
       password: "12",
-      cep: "123"
+      cep: "010"
     }
   end
 end
