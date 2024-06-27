@@ -44,7 +44,8 @@ defmodule BananaBank.MixProject do
       {:bandit, "~> 1.2"},
       {:pbkdf2_elixir, "~> 2.0"},
       {:ex_machina, "~> 2.8.0", only: :test},
-      {:tesla, "~> 1.9"}
+      {:tesla, "~> 1.9"},
+      {:bypass, "~> 2.1", only: :test}
     ]
   end
 
