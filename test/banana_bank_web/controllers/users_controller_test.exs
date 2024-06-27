@@ -1,10 +1,30 @@
 defmodule BananaBankWeb.UserControllerTest do
-  import BananaBankWeb.Support.UserFactory
-
   use BananaBankWeb.ConnCase
+  alias BananaBank.ViaCep.ClientMock
+
+  import BananaBankWeb.Support.UserFactory
+  import Mox
+
+  setup do
+    body = %{
+      "cep" => "01001-000",
+      "logradouro" => "Praça da Sé",
+      "complemento" => "lado ímpar",
+      "unidade" => "",
+      "bairro" => "Sé",
+      "localidade" => "São Paulo",
+      "uf" => "SP",
+      "ibge" => "3550308",
+      "gia" => "1004",
+      "ddd" => "11",
+      "siafi" => "7107"
+    }
+
+    {:ok, %{body: body}}
+  end
 
   describe "create/2" do
-    test "successfully create an user", %{conn: conn} do
+    test "successfully create an user", %{conn: conn, body: body} do
       user =
         build(:user)
         |> Map.from_struct()
@@ -13,6 +33,10 @@ defmodule BananaBankWeb.UserControllerTest do
       name = user.name
       cep = user.cep
       email = user.email
+
+      expect(ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       response = conn |> post(~p"/api/users", user) |> json_response(:created)
 
@@ -27,11 +51,15 @@ defmodule BananaBankWeb.UserControllerTest do
              } = response
     end
 
-    test "when there are invalid params, returns an error", %{conn: conn} do
+    test "when there are invalid params, returns an error", %{conn: conn, body: body} do
       invalid_user_params =
         build(:invalid_user)
         |> Map.from_struct()
         |> Map.drop([:id, :inserted_at, :updated_at])
+
+      expect(ClientMock, :call, fn "010" ->
+        {:ok, body}
+      end)
 
       response = conn |> post(~p"/api/users", invalid_user_params) |> json_response(:bad_request)
 
@@ -47,8 +75,12 @@ defmodule BananaBankWeb.UserControllerTest do
   end
 
   describe "delete/2" do
-    test "successfully deleted a user", %{conn: conn} do
+    test "successfully deleted a user", %{conn: conn, body: body} do
       user = insert(:user)
+
+      expect(ClientMock, :call, fn "01001000" ->
+        {:ok, body}
+      end)
 
       conn = delete(conn, ~p"/api/users/#{user.id}")
       assert response(conn, :no_content)
@@ -94,13 +126,17 @@ defmodule BananaBankWeb.UserControllerTest do
   end
 
   describe "update/2" do
-    test "successfully update a user", %{conn: conn} do
+    test "successfully update a user", %{conn: conn, body: body} do
       user = insert(:user)
 
       update_params = %{
         name: "Joe Makarov Clank",
-        cep: "87654321"
+        cep: "66823089"
       }
+
+      expect(ClientMock, :call, fn "66823089" ->
+        {:ok, body}
+      end)
 
       response = conn |> put(~p"/api/users/#{user.id}", update_params) |> json_response(:ok)
 
