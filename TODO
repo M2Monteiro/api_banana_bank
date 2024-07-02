@@ -1,3 +1,4 @@
 Todo:
   ☐ Implementar Unique Constraint
   ☐ Criar teste de errors no via_cep client
+  ☐ Verificar se o usuário existe antes de criar a conta
