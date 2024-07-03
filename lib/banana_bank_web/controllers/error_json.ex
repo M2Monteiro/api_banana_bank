@@ -23,6 +23,10 @@ defmodule BananaBankWeb.ErrorJSON do
     %{status: :not_found, message: "User not found"}
   end
 
+  def error(%{msg: msg}) do
+    %{message: msg}
+  end
+
   def error(%{changeset: changeset}) do
     %{error: Ecto.Changeset.traverse_errors(changeset, &translate_errors/1)}
   end
