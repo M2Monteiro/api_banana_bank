@@ -1,6 +1,5 @@
 defmodule BananaBank.Users.Verify do
   alias BananaBank.Users
-  alias Users.User
 
   def call(%{"id" => id, "password" => password}) do
     case Users.get(id) do
@@ -11,7 +10,7 @@ defmodule BananaBank.Users.Verify do
 
   defp verify(user, password) do
     case Pbkdf2.verify_pass(password, user.password_hash) do
-      true -> {:ok, :valid_password}
+      true -> {:ok, user}
       false -> {:error, :unauthorized}
     end
   end
